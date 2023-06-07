@@ -1,0 +1,118 @@
+<html>
+
+    <head>
+        <title>katsumashi catalog number generator</title>
+        <link rel="stylesheet" href="style.css"></link>
+        <script defer src="index.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <div class="mainpage">
+            <h1>katsumashi | catalog number generator</h1>
+            <p style="text-align: center;">BETA - VERY BROKEN</p>
+            <hr style="width:80%; height: 2px; border: 0px; text-align:center; margin-top: 25px; margin-bottom: 25px; color: rgb(63, 63, 63); background-color: rgb(63, 63, 63);">
+
+            <h2>let's answer some questions.</h2>
+            <p>what type of media/release is this?</p>
+
+            <div class="dropdown-menu">
+                <button class="dropdown-button">media type (select one)</button>
+                <div class="dropdown-content">
+                    <a id="calbum" onclick="showhide(this, 'calbum-disp')">album / album song</a>
+                    <a id="csingle" onclick="showhide(this, 'csingle-disp')">standalone single (i.e. not on an album)</a>
+                    <a id="cfilm" onclick="showhide(this, 'cfilm-disp')">film</a>
+                    <a id="cvg" onclick="showhide(this, 'cvg-disp')">video game</a>
+                    <a id="clive" onclick="showhide(this, 'clive-disp')">special live show</a>
+                    <a id="ctour" onclick="showhide(this, 'ctour-disp')">tour</a>
+                </div>
+            </div>
+
+            <div id="calbum-disp" class="calbum-disp" style="display: none;">
+                <h3>ALBUM SETTINGS</h3>
+                <p>which album number is this? (keep in mind: written in stone is considered LP 0, not 1)</p>
+                <input type="number" class="number" id="numberinput1">
+                <button type="button" class="button" id="albumnumbersubmit" onclick="setValues('numberinput1', 0); showhide(self, 'album-track-question', 'basic');">submit</button>
+
+                <div id="album-track-question" class="album-track-question" style="display: none;">
+                    <p>are we talking about a specific song, or just the album as a whole?</p>
+                    <button type="button" class="button" id="song-yes" onclick="showhide(self, 'songnumberselect', 'basic')">one song</button>
+                    <button type="button" class="button" id="song-no" onclick="showhide(self, 'code-display', 'basic'); generateCode();">whole album</button>
+
+                    <div id="songnumberselect" class="songnumberselect" style="display: none;">
+                        <p>which track number is this?</p>
+                        <input type="number" id="numberinput2" class="number">
+                        <button type="button" class="button" id="tracknumbersubmit" onclick="setValues('numberinput2', 1); showhide(self, 'partnumberquestion', 'basic');">submit</button>
+
+                        <div id="partnumberquestion" class="partnumberquestion" style="display: none;">
+                            <p>are we talking about a specific part of a longer, multi-part song (e.g. Twin Flame, Pt. 2 "Prophets")?</p>
+                            <p><i>note: this is not for the chorus or verse. this is for longer songs with sections denoted as "Part I/II/III" or something similar.
+                                this system does not allow choruses and verses to have separate codes, as they are inseperable from the song as a whole.
+                            </i></p>
+                            <button type="button" class="button" id="songpart-yes" onclick="showhide(self, 'partnumberselect', 'basic')">specific part</button>
+                            <button type="button" class="button" id="songpart-no" onclick="showhide(self, 'code-display', 'basic'); generateCode();">whole song</button>
+
+                            <div id="partnumberselect" class="partnumberselect" style="display: none;">
+                                <p>which part number is this? (keep in mind: written in stone is considered LP 0, not 1)</p>
+                                <input type="number" id="numberinput3" class="number">
+                                <button type="button" class="button" id="partnumbersubmit" onclick="setValues('numberinput3', 2); showhide(self, 'code-display', 'basic'); generateCode();">submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="csingle-disp" class="csingle-disp" style="display: none;">
+                <p>SINGLE SETTINGS</p>
+            </div>
+
+            <div id="cfilm-disp" class="cfilm-disp" style="display: none;">
+                <p>FILM SETTINGS</p>
+            </div>
+
+            <div id="cvg-disp" class="cvg-disp" style="display: none;">
+                <p>VIDEO GAME SETTINGS</p>
+            </div>
+
+            <div id="clive-disp" class="clive-disp" style="display: none;">
+                <p>LIVE SHOW SETTINGS</p>
+            </div>
+
+            <div id="ctour-disp" class="ctour-disp" style="display: none;">
+                <p>TOUR SETTINGS</p>
+            </div>
+
+
+            <div id="code-display" class="code-display" style="display: none;">
+                <h3>ALBUM CODE</h2>
+                <p id="albumcode">KA01-10-P4 (placeholder)</p>
+            </div>
+
+            <br><br>
+            <hr style="width:80%; height: 2px; border: 0px; text-align:center; margin-top: 25px; margin-bottom: 25px; color: rgb(63, 63, 63); background-color: rgb(63, 63, 63);">
+
+            <!-- The info buttons -->
+            <button type="button" class="collapsible">what is this for?</button>
+            <div class="bcontent">
+                <p>I made this page for myself. it generates my release catalog numbers - if you don't know what those are, don't worry, you don't need to.
+                    they're essentially just strings of text/numbers that are shorthand for certain things I've made. 
+                    for example, KA00-08 refers to my song "nihilism" off the album "written in stone".
+                    these numbers are unique, so if I ever release a song that has multiple versions, these numbers will specify which one.
+                    you will never need to use these, and nobody (except me internally) will ever refer to my stuff with the full codes. 
+                    however, I sometimes do use shorter versions of these codes to refer to things: e.g. albums "KA01" or gamedev projects e.g. "KG02" 
+                </p>
+            </div><br><br>
+
+            <button type="button" class="collapsible">what do the codes mean?</button>
+            <div class="bcontent">
+                <p>there's a set of rules for how these codes work. 
+                    basically, you stack the parts you're referring to with the codes left to right, biggest to smallest.
+                    for example, if the code is talking about a specific part of a song, the album comes first, then the song, then the part of that song.
+                </p>
+            </div>
+            <br>
+            <br>
+
+        </div>
+    </body>
+
+</html>
